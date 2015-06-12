@@ -1,4 +1,4 @@
-package com.kasonchan.controllers
+package com.kasonchan.routes
 
 import org.scalatra._
 import scalate.ScalateSupport
@@ -26,7 +26,7 @@ trait WebappStack extends ScalatraServlet with ScalateSupport {
 
   notFound {
     // remove content type in case it was set through an action
-    contentType = null
+    // contentType = null
     // Try to render a ScalateTemplate if no route matched
     findTemplate(requestPath) map { path =>
       contentType = "text/html"
