@@ -12,7 +12,7 @@ object WebappBuild extends Build {
   val ScalaVersion = "2.11.6"
   val ScalatraVersion = "2.4.0.RC1"
 
-  lazy val project = Project (
+  lazy val project = Project(
     "webapp",
     file("."),
     settings = ScalatraPlugin.scalatraWithJRebel ++ scalateSettings ++ Seq(
@@ -29,20 +29,16 @@ object WebappBuild extends Build {
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
         "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "container",
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
-        "javax.servlet" % "javax.servlet-api" % "3.1.0"
-      ),
-      scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
+        "javax.servlet" % "javax.servlet-api" % "3.1.0",
+        "org.scalatra" %% "scalatra-json" % "2.4.0.RC1",
+        "org.json4s" %% "json4s-jackson" % "3.3.0.RC1"),
+      scalateTemplateConfig in Compile <<= (sourceDirectory in Compile) { base =>
         Seq(
           TemplateConfig(
             base / "webapp" / "WEB-INF" / "templates",
-            Seq.empty,  /* default imports should be added here */
+            Seq.empty, /* default imports should be added here */
             Seq(
-              Binding("context", "_root_.org.scalatra.scalate.ScalatraRenderContext", importMembers = true, isImplicit = true)
-            ),  /* add extra bindings here */
-            Some("templates")
-          )
-        )
-      }
-    )
-  )
+              Binding("context", "_root_.org.scalatra.scalate.ScalatraRenderContext", importMembers = true, isImplicit = true)), /* add extra bindings here */
+            Some("templates")))
+      }))
 }

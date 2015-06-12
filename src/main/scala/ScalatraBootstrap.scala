@@ -1,4 +1,4 @@
-import com.kasonchan.webapp._
+import com.kasonchan.controllers._
 import org.scalatra._
 import javax.servlet.ServletContext
 

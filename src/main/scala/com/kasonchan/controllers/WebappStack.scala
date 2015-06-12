@@ -1,4 +1,4 @@
-package com.kasonchan.webapp
+package com.kasonchan.controllers
 
 import org.scalatra._
 import scalate.ScalateSupport
