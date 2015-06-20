@@ -1,8 +1,9 @@
 package com.kasonchan.routes
 
 import org.scalatra._
+import org.json4s.JValue
 import scalate.ScalateSupport
-import com.kasonchan.models.{ ColorData, File, Message, PersonData }
+import com.kasonchan.models.{ ColorData, File, Message, PersonData, Person }
 
 // JSON-related libraries
 import org.json4s.{ DefaultFormats, Formats }
@@ -16,6 +17,11 @@ class Routes extends WebappStack with JacksonJsonSupport {
 
   before() {
     contentType = formats("json")
+  }
+
+  get("*") {
+    val message = Message(Seq("Not found", "I don't know"))
+    NotFound(message)
   }
 
   get("/") {
@@ -41,7 +47,7 @@ class Routes extends WebappStack with JacksonJsonSupport {
       case "blue" => ColorData.blue
       case "purple" => ColorData.purple
       case _ =>
-        val message = Message("Not found")
+        val message = Message(Seq("Not found"))
         NotFound(message)
     }
   }
@@ -53,6 +59,9 @@ class Routes extends WebappStack with JacksonJsonSupport {
     { params("name") } match {
       case "kasonchan" => PersonData.kasonchan
       case "webapp" => PersonData.webapp
+      case _ =>
+        val message = Message(Seq("Not found"))
+        NotFound(message)
     }
   }
 
@@ -68,6 +77,20 @@ class Routes extends WebappStack with JacksonJsonSupport {
     // Matches "GET /download/path/to/file.xml"
     val file = multiParams("splat")
     File(file.head, file.last) // == Seq("path/to/file", "xml")
+  }
+
+  protected override def transformRequestBody(body: JValue): JValue = body.camelizeKeys
+
+  protected override def transformResponseBody(body: JValue): JValue = body.underscoreKeys
+
+  post("/create") {
+    val p = parsedBody.extract[Person]
+    Message(Seq(p.login, p.name, p.email))
+  }
+
+  post("/createmaybe") {
+    val p = request.body
+    Message(Seq(p))
   }
 
 }
