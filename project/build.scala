@@ -33,7 +33,8 @@ object WebappBuild extends Build {
         "org.scalatra" %% "scalatra-json" % "2.4.0.RC1",
         "org.json4s" %% "json4s-jackson" % "3.3.0.RC1",
         "com.typesafe.akka" %% "akka-actor" % "2.3.4",
-        "net.databinder.dispatch" %% "dispatch-core" % "0.11.1"),
+        "net.databinder.dispatch" %% "dispatch-core" % "0.11.1",
+        "org.scalatra" %% "scalatra-scalatest" % "2.4.0.RC1" % "test"),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile) { base =>
         Seq(
           TemplateConfig(
