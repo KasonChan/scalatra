@@ -104,8 +104,14 @@ class Routes extends WebappStack with JacksonJsonSupport {
     File(file.head, file.last) // == Seq("path/to/file", "xml")
   }
 
+  get("/actor/:param") {
+    val p = params("param")
+    val messages = Message(Seq(p))
+    Accepted(messages)
+  }
+
   before() {
     contentType = formats("json")
   }
-  
+
 }
