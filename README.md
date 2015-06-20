@@ -19,4 +19,5 @@ If `browse` doesn't launch your browser, manually open
 
 ### References ###
 
-- http://www.scalatra.org/2.4/getting-started/first-project.html
+- First project http://www.scalatra.org/2.4/getting-started/first-project.html
+- Response code https://github.com/scalatra/scalatra/blob/develop/core/src/main/scala/org/scalatra/ActionResult.scala

@@ -15,8 +15,31 @@ class Routes extends WebappStack with JacksonJsonSupport {
 
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
-  before() {
-    contentType = formats("json")
+  protected override def transformRequestBody(body: JValue): JValue = body.camelizeKeys
+
+  protected override def transformResponseBody(body: JValue): JValue = body.underscoreKeys
+
+  post("/create") {
+    val p = parsedBody.extract[Person]
+    Message(Seq(p.login, p.name, p.email))
+  }
+
+  post("/createmaybe") {
+    val p = request.body
+    Message(Seq(p))
+  }
+
+  get("/badrequest") {
+    val message = Message(Seq("Bad request"))
+    BadRequest(message)
+  }
+
+  get("/redirect") {
+    redirect("/someplace/else")
+  }
+
+  get("/halt") {
+    halt(403)
   }
 
   get("*") {
@@ -56,6 +79,8 @@ class Routes extends WebappStack with JacksonJsonSupport {
    * Named parameters
    */
   get("/hello/:name") {
+    // A special simplified view of multiParams, containing only the head element
+    // for any known param and returning the values as Strings.
     { params("name") } match {
       case "kasonchan" => PersonData.kasonchan
       case "webapp" => PersonData.webapp
@@ -79,18 +104,8 @@ class Routes extends WebappStack with JacksonJsonSupport {
     File(file.head, file.last) // == Seq("path/to/file", "xml")
   }
 
-  protected override def transformRequestBody(body: JValue): JValue = body.camelizeKeys
-
-  protected override def transformResponseBody(body: JValue): JValue = body.underscoreKeys
-
-  post("/create") {
-    val p = parsedBody.extract[Person]
-    Message(Seq(p.login, p.name, p.email))
+  before() {
+    contentType = formats("json")
   }
-
-  post("/createmaybe") {
-    val p = request.body
-    Message(Seq(p))
-  }
-
+  
 }
