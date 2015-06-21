@@ -34,7 +34,9 @@ object WebappBuild extends Build {
         "org.json4s" %% "json4s-jackson" % "3.3.0.RC1",
         "com.typesafe.akka" %% "akka-actor" % "2.3.4",
         "net.databinder.dispatch" %% "dispatch-core" % "0.11.1",
-        "org.scalatra" %% "scalatra-scalatest" % "2.4.0.RC1" % "test"),
+        "org.scalatra" %% "scalatra-scalatest" % "2.4.0.RC1" % "test",
+        "org.mongodb" %% "casbah" % "2.8.1",
+        "org.json4s" %% "json4s-mongo" % "3.2.10"),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile) { base =>
         Seq(
           TemplateConfig(
